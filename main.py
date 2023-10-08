@@ -21,6 +21,10 @@ results = [json.loads(line) for line in read_lines()]
 # 結果がエラーでないものを抽出
 results = [r for r in results if r.get("error") is None]
 
+# server.idによって結果が大きく異なるので、特定のサーバーの結果のみを抽出
+SERVER_ID_LIST = [48463, 21569, 14623, 50686]
+results = [r for r in results if (r.get("server") or {}).get("id") in SERVER_ID_LIST]
+
 # pandasのDataFrameに変換
 df = pd.json_normalize(results, max_level=10)
 
